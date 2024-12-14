@@ -1,5 +1,14 @@
 # pc-compression
-Comparison of compression algorithms of point clouds.
+Evaluation of point cloud geometry compression algorithms on sparse and non-uniform data.
+
+## Rationale
+A survey of recent and relevant literature concluded that most algorithms are tested on very dense geometries.
+While this may give an accurate description of an algorithm's efficiency, real-world data may oftentimes not be as dense and uniformly spaced.
+Therefore, it is useful to investigate an array of things:
+- which algorithms are even useful on sparse data?
+- is lossless compression of realistic clouds necessary?
+- if not, is there an optimal value of loss considering computation effort and output error?
+- ...
 
 ## Roadmap
 
