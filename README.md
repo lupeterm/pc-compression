@@ -7,11 +7,17 @@ Usually, the size of the point clouds grows quickly as the camera continues to p
 
 Compression of (point cloud) geometries has been extensively studied. A survey of relevant and recent literature concluded, that most publications evaluated their algorithms using very dense datasets in which the data points are uniformly placed, e.g. [8iVFB](http://plenodb.jpeg.org/pc/8ilabs). Conversely, a publication dedicated to the effective usage of compression algorithms on rather sparse and non-uniform geometries seems to be missing. 
 
+For instance, the `auditorium_1` scene of the 2D3DS dataset not only has a medium density, it is also very uniform (see the histogram on the right side). 
+![grafik](https://github.com/user-attachments/assets/12159822-a42e-4d99-a26b-440d8b2870ab) <!--- 2S3DS dataset -->
+In contrast, the `auditorium` scene in our self-recorded FIN dataset has an overall lower density _and_ the individual points are non-uniformly placed, as shown by the wider spread in the histogram.
+![grafik](https://github.com/user-attachments/assets/3ccc0c7b-e7cd-48ef-9ad4-93419f6779d3) <!--- FIN dataset -->
+
 As the raw amount of data in dense clouds is likely to be greater than its sparse counterpart, the analyses regarding processing time are naturally applicable. 
-However, other factors may have been disregarded due to the focus on dense geometries. For instance, the amount of compression-induced information loss may play a different role when the data points are not spaced very close together. A lossy approach may even be favourable. Moreover, the underlying techniques predominantly used for dense geometries could show a different usefulness when applied to sparse ones.
+However, other factors may have been disregarded due to the focus on dense geometries. For instance, the amount of compression-induced information loss may play a different role when the data points are not spaced very close together. 
+A lossy approach may even be favourable. Moreover, the underlying techniques predominantly used for dense geometries could show a different usefulness when applied to sparse ones.
 
 The overarching idea of this project is to quantify the usage of geometric compression algorithms on sparse point clouds, thus evaluating
--  to which extent results of previous publications on dense data can generally be applied to sparse data,
+- to which extent results of previous publications on dense data can generally be applied to sparse data,
 - which (classes of) algorithms are most suitable,
 - how useful *lossless* compression is in the context of sparse geometries, and
 - if it is not sufficiently useful, at which point is it a valuable tradeoff?  
