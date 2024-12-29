@@ -22,7 +22,7 @@ The overarching idea of this project is to quantify the usage of geometric compr
 - how useful *lossless* compression is in the context of sparse geometries, and
 - if it is not sufficiently useful, at which point is it a valuable tradeoff?  
 
-While outdoor or urban datasets are also valid, for the sake of setup simplicity, we will focus on indoor point clouds in this study. The next section presents a roadmap for the project including milestones and some additional technical information(datasets, algorithms, evaluation setup).
+While outdoor or urban datasets are also valid, for the sake of setup simplicity, and because point density decreases quadratically with sensor distance ([Hackel et. al.](#fast-semantic-segmentation)), we will focus on indoor point clouds in this study. The next section presents a roadmap for the project including milestones and some additional technical information(datasets, algorithms, evaluation setup).
 
 
 ## Roadmap
@@ -40,7 +40,7 @@ While outdoor or urban datasets are also valid, for the sake of setup simplicity
       1.  Draco
       2.  pccomp
       3.  mpeg-pcc-tmc13 (?)
-      4.  SarsePCGC (?)
+      4.  [SparsePCGC](#sparsePCGC) (?)
       > Would like at least 4 algorithms
       > Likely have to implement my own (from a paper)
    3. Datasets
@@ -58,15 +58,41 @@ While outdoor or urban datasets are also valid, for the sake of setup simplicity
       1. bits per second (bps)
       2. peak signal to noise ration (PSNR)
       3. root mean square erro (RMSE)
-      4. ?
+      4. Bjøntegaard Delta Rate 
 2. Experimental Setup
    > probably Ros2 nodes
 3. Evaluate
    > Gather all metrics and present them nicely using matplot or seaborn
 
 ## References
-- [Google Draco](https://github.com/google/draco)
-- [PCCOMP](https://github.com/szppaks/pccomp_oct)
-- once i figure out how to use it, [mpeg-pcc-tmc13](https://github.com/MPEGGroup/mpeg-pcc-tmc13)
-- [SparsePCGC](https://github.com/NJUVISION/SparsePCGC)
-- [8iVFB](http://plenodb.jpeg.org/pc/8ilabs)
+### [Google Draco](https://github.com/google/draco)
+### [PCCOMP](https://github.com/szppaks/pccomp_oct)
+### [mpeg-pcc-tmc13](https://github.com/MPEGGroup/mpeg-pcc-tmc13)
+once i figure out how to use it, that is
+### SparsePCGC
+[Source](https://github.com/NJUVISION/SparsePCGC)
+```
+@article{Ding_Li_Feng_Cao_Ma_2022, 
+   title={Sparse Tensor-based Multiscale Representation for Point Cloud Geometry Compression}, 
+   url={http://arxiv.org/abs/2111.10633}, 
+   DOI={10.48550/arXiv.2111.10633}, 
+   publisher={arXiv}, 
+   author={Ding, Dandan and Li, Zhu and Feng, Xiaoxing and Cao, Chuntong and Ma, Zhan}, 
+   year={2022}
+}
+```
+
+### [8iVFB](http://plenodb.jpeg.org/pc/8ilabs)
+### Fast Semantic Segmentation
+```
+@article{Hackel_Wegner_Schindler_2016, 
+   title={FAST SEMANTIC SEGMENTATION OF 3D POINT CLOUDS WITH STRONGLY VARYING DENSITY}, 
+   volume={III–3}, 
+   ISSN={2194-9050}, 
+   DOI={10.5194/isprsannals-III-3-177-2016}, 
+   publisher={ISPRS},
+   journal={Annals of Photogrammetry, Remote Sensing and Spatial Information Sciences}, 
+   author={Hackel, Timo and Wegner, Jan D. and Schindler, Konrad}, 
+   year={2016} 
+}
+```
