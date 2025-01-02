@@ -5,7 +5,7 @@ Evaluation of point cloud geometry compression algorithms on sparse and non-unif
 In many real world robotics scenarios, point cloud geometries need to be exchanged between nodes in a system, e.g. the Robot Operating System (ROS). For instance, one of these nodes could be a Raspberry Pi that computes an unorganized point cloud (UPC) from a continuous stream of RGB-D data. Now, as this point cloud would be processed in in nodes further downstream inside the system, the entire UPC would have to be transmitted over a shared network between the nodes. 
 Usually, the size of the point clouds grows quickly as the camera continues to perceive its surroundings. Furthermore, since bandwidth is often limited and expensive, geometric compression algorithms are necessary to ensure the application runs smoothly.
 
-Compression of (point cloud) geometries has been extensively studied. A survey of relevant and recent literature concluded, that most publications evaluated their algorithms using very dense datasets in which the data points are uniformly placed, e.g. [8iVFB](http://plenodb.jpeg.org/pc/8ilabs). Conversely, a publication dedicated to the effective usage of compression algorithms on rather sparse and non-uniform geometries seems to be missing. 
+Compression of (point cloud) geometries has been extensively studied. A survey of relevant and recent literature concluded, that most publications evaluated their algorithms using very dense datasets in which the data points are uniformly placed, e.g. [8iVFB](#8iVFB-dataset). Conversely, a publication dedicated to the effective usage of compression algorithms on rather sparse and non-uniform geometries seems to be missing. 
 
 For instance, the `auditorium_1` scene of the 2D3DS dataset not only has a medium density, it is also very uniform (see the histogram on the right side). 
 ![grafik](https://github.com/user-attachments/assets/12159822-a42e-4d99-a26b-440d8b2870ab) <!--- 2S3DS dataset -->
@@ -36,13 +36,14 @@ While outdoor or urban datasets are also valid, for the sake of setup simplicity
       5. type of output
       6. (language/ needs (re-)implementation)
       7. Deterministic (?)
-   2. Algorithms
-      1.  Draco
-      2.  pccomp
-      3.  mpeg-pcc-tmc13 (?)
+   2. Algorithms (see [table](#algorithm-qualifiers))
+      1.  [Google Draco](#google-draco)
+      2.  [pccompt_oct](#pccomp-oct)
+      3.  [mpeg-pcc-tmc13](#mpeg-pcc-tmc13) (?)
       4.  [SparsePCGC](#sparsePCGC) (?)
-      > Would like at least 4 algorithms
-      > Likely have to implement my own (from a paper)
+      5.  [D-PCC](#d-pcc)
+      6.  [Unicorn](#unicorn)
+      7.  [DEPOCO](#depoco)
    3. Datasets
       1. Qualifiers
          1. Size
@@ -64,13 +65,43 @@ While outdoor or urban datasets are also valid, for the sake of setup simplicity
 3. Evaluate
    > Gather all metrics and present them nicely using matplot or seaborn
 
+### Algorithm Qualifiers
+| **Paper / Name**                                                 | **Source**                                           | **AI ?** | **ROS compatible?** | **avg bpp**                       | **runtime enc/dec** | **loss?**           | **used datasets**           | **BD rate?**           |
+|:----------------------------------------------------------------:|:----------------------------------------------------:|:--------:|:-------------------:|:---------------------------------:|:-------------------:|:-------------------:|:---------------------------:|:----------------------:|
+| Density-preserving Deep Point Cloud Compression                  | https://github.com/yunhe20/D-PCC                     | x        |                ?     | max. 6bpp                                  | 80ms/30ms                    |                 lossy?    | kitty, ShapeNet             |                        |
+| Google Draco                                                     | https://github.com/google/draco                      |  -        | x                   |                               max. 6bpp    |   ~1/~0.5                 | both                    | sample meshes                            |                         |
+| Octree-based lossy point-cloud compression with open3d and numpy | https://github.com/szppaks/pccomp_oct                | -         | x                   |                                   |                     |                     |                             |                        |
+| mpeg-pcc-tmc13                                                   | https://github.com/MPEGGroup/mpeg-pcc-tmc13          |          |                     |                                   |                     |                     |                             |                        |
+| SparsePCGC                                                       | https://github.com/NJUVISION/SparsePCGC              | x        | ?                   | 13.5bpp                           | 2.22/206            | lossless            | kitti, ford                 |                        |
+| SparsePCGC                                                       | https://github.com/NJUVISION/SparsePCGC              | x        | ?                   |                                   | 1.5/1.12            | lossy               | kitti, ford                 | ~30% better than G-PCC |
+| Unicorn                                                          | https://njuvision.github.io/Unicorn/                 | x        | ?                   | s: 12bpp , k+f: 4-5bpp            | ~5/~5               | lossless            | kitti, ford, scannet        |                        |
+| MPEG Anchor                                                      | none to be found, miss me                            | mixed    | ?                   | ?                                 | 0.8s-1s ?           |                     | some form of kinect dataset | /                      |
+| Deep Compression for Dense Point Cloud Maps (DEPOCO)             | https://github.com/PRBonn/deep-point-map-compression | x        |                     | 0.44 sieht noch gut aus scheinbar | ?                   | lossy, idk how much | kitti, nuScenes             | /                      |
+
+
 ## References
-### [Google Draco](https://github.com/google/draco)
-### [PCCOMP](https://github.com/szppaks/pccomp_oct)
-### [mpeg-pcc-tmc13](https://github.com/MPEGGroup/mpeg-pcc-tmc13)
+### Algorithms
+#### Google Draco
+> [Source](https://github.com/google/draco)
+```
+https://opensource.googleblog.com/2017/01/introducing-draco-compression-for-3d.**html**
+```
+
+#### PCCOMP-OCT
+>[Source](https://github.com/szppaks/pccomp_oct)
+```
+Original article: Szutor Péter: Ipari pontfelhők tömörítése,  
+Dr. Balázs Boglárka (szerk.) Az elmélet és a gyakorlat találkozása a térinformatikában VIII. Theory meets practice in GIS Debrecen, Magyarország  
+Debreceni Egyetemi Kiadó, (2017) pp. 349-355
+```
+#### mpeg-pcc-tmc13
+[Source](https://github.com/MPEGGroup/mpeg-pcc-tmc13)
+```
+Original Publication: some collection of ISO standarts
+```
 once i figure out how to use it, that is
-### SparsePCGC
-[Source](https://github.com/NJUVISION/SparsePCGC)
+#### SparsePCGC
+> [Source](https://github.com/NJUVISION/SparsePCGC)
 ```
 @article{Ding_Li_Feng_Cao_Ma_2022, 
    title={Sparse Tensor-based Multiscale Representation for Point Cloud Geometry Compression}, 
@@ -81,9 +112,68 @@ once i figure out how to use it, that is
    year={2022}
 }
 ```
+#### D-PCC
+> [Source](https://github.com/yunhe20/D-PCC)
+```
+@InProceedings{He_2022_CVPR,
+    author    = {He, Yun and Ren, Xinlin and Tang, Danhang and Zhang, Yinda and Xue, Xiangyang and Fu, Yanwei},
+    title     = {Density-preserving Deep Point Cloud Compression},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    year      = {2022}
+}
+```
+#### Unicorn
+> [Source](https://njuvision.github.io/Unicorn/)
+```
+@ARTICLE{10682571,
+  author={Wang, Jianqiang and Xue, Ruixiang and Li, Jiaxin and Ding, Dandan and Lin, Yi and Ma, Zhan},
+  title={A Versatile Point Cloud Compressor Using Universal Multiscale Conditional Coding – Part I: Geometry}, 
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+  year={2025},
+  volume={47},
+  number={1},
+  doi={10.1109/TPAMI.2024.3462938}
+}
 
-### [8iVFB](http://plenodb.jpeg.org/pc/8ilabs)
-### Fast Semantic Segmentation
+and 
+
+@ARTICLE{10682566,
+  author={Wang, Jianqiang and Xue, Ruixiang and Li, Jiaxin and Ding, Dandan and Lin, Yi and Ma, Zhan},
+  title={A Versatile Point Cloud Compressor Using Universal Multiscale Conditional Coding – Part II: Attribute}, 
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+  year={2025},
+  volume={47},
+  number={1},
+  doi={10.1109/TPAMI.2024.3462945}
+}
+
+
+```
+#### DEPOCO
+> [Source] (https://github.com/PRBonn/deep-point-map-compression)
+```
+@article{wiesmann2021ral,
+   author = {L. Wiesmann and A. Milioto and X. Chen and C. Stachniss and J. Behley},
+   title = {{Deep Compression for Dense Point Cloud Maps}},
+   journal = {IEEE Robotics and Automation Letters (RA-L)},
+   volume = 6,
+   issue = 2,
+   pages = {2060-2067},
+   doi = {10.1109/LRA.2021.3059633},
+   year = 2021
+}
+```
+
+---
+### Datasets
+#### 8iVFB
+> [Source](http://plenodb.jpeg.org/pc/8ilabs)
+```
+Maja Krivokuća, Philip A. Chou, and Patrick Savill, “8i Voxelized Surface Light Field (8iVSLF) Dataset,” ISO/IEC JTC1/SC29 WG11 (MPEG) input document m42914, Ljubljana, July 2018.
+```
+
+### Misc
+#### Fast Semantic Segmentation
 ```
 @article{Hackel_Wegner_Schindler_2016, 
    title={FAST SEMANTIC SEGMENTATION OF 3D POINT CLOUDS WITH STRONGLY VARYING DENSITY}, 
