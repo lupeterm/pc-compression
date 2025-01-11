@@ -37,13 +37,13 @@ While outdoor or urban datasets are also valid, for the sake of setup simplicity
       6. (language/ needs (re-)implementation)
       7. Deterministic (?)
    2. Algorithms (see [table](#algorithm-qualifiers))
-      1.  [Google Draco](#google-draco)
-      2.  [pccompt_oct](#pccomp-oct)
-      3.  [mpeg-pcc-tmc13](#mpeg-pcc-tmc13) (?)
-      4.  [SparsePCGC](#sparsePCGC) (?)
-      5.  [D-PCC](#d-pcc)
-      6.  [Unicorn](#unicorn)
-      7.  [DEPOCO](#depoco)
+      1.  [ ] [Google Draco](#google-draco)
+      2.  [ ] [pccompt_oct](#pccomp-oct)
+      3.  [ ] [mpeg-pcc-tmc13](#mpeg-pcc-tmc13) (?)
+      4.  [ ] [SparsePCGC](#sparsepcgc) (?)
+      5.  [ ] [D-PCC](#d-pcc)
+      6.  [ ] [Unicorn](#unicorn)
+      7.  [ ] [DEPOCO](#depoco)
    3. Datasets
       1. Qualifiers
          1. Size
