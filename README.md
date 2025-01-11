@@ -83,6 +83,11 @@ While outdoor or urban datasets are also valid, for the sake of setup simplicity
 ### Algorithms
 #### Google Draco
 > [Source](https://github.com/google/draco)
+
+> While the precompiled binaries would surely produce good results, the C++ (En-|De-)coder API is simply unusable. More than ten hours have been wasted in the process (/attempt) of a ROS2 node that transforms `sensor_msgs/PointCloud2` into `draco::PointCloud`, which is subsequently encoded and published on another ROS2 topic. 
+
+> Considering the aspect of software maintainability, it would likely be wise to choose draco, as the project does not seem be under active developtment, nor maintenance.
+
 ```
 https://opensource.googleblog.com/2017/01/introducing-draco-compression-for-3d.**html**
 ```
