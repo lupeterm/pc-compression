@@ -1,0 +1,14 @@
+{
+  "algorithms": {
+    "draco": {
+      "encoder": "/home/pedda/Documents/uni/pc-compression/encoders/draco_encoder",
+      "decoder": "/home/pedda/Documents/uni/pc-compression/decoders/draco_decoder"
+    }
+  },
+  "scenes": [
+    "hallway"
+  ],
+  "scene_root": "/home/pedda/Documents/uni/FIN-Dataset",
+  "destination_root": "/home/pedda/Documents/uni/pc-compression/outputs",
+  "mode": 1
+}
