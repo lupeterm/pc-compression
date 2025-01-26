@@ -8,13 +8,13 @@ Usually, the size of the point clouds grows quickly as the camera continues to p
 Compression of (point cloud) geometries has been extensively studied. A survey of relevant and recent literature concluded, that most publications evaluated their algorithms using very dense datasets in which the data points are uniformly placed, e.g. [8iVFB](#8iVFB-dataset). Conversely, a publication dedicated to the effective usage of compression algorithms on rather sparse and non-uniform geometries seems to be missing. 
 
 For instance, the `auditorium_1` scene of the 2D3DS dataset not only has a medium density, it is also very uniform (see the histogram on the right side). 
-![grafik](https://github.com/user-attachments/assets/12159822-a42e-4d99-a26b-440d8b2870ab) <!--- 2S3DS dataset -->
+![graphic](https://github.com/user-attachments/assets/12159822-a42e-4d99-a26b-440d8b2870ab) <!--- 2S3DS dataset -->
 In contrast, the `auditorium` scene in our self-recorded FIN dataset has an overall lower density _and_ the individual points are non-uniformly placed, as shown by the wider spread in the histogram.
-![grafik](https://github.com/user-attachments/assets/3ccc0c7b-e7cd-48ef-9ad4-93419f6779d3) <!--- FIN dataset -->
+![graphic](https://github.com/user-attachments/assets/3ccc0c7b-e7cd-48ef-9ad4-93419f6779d3) <!--- FIN dataset -->
 
 As the raw amount of data in dense clouds is likely to be greater than its sparse counterpart, the analyses regarding processing time are naturally applicable. 
 However, other factors may have been disregarded due to the focus on dense geometries. For instance, the amount of compression-induced information loss may play a different role when the data points are not spaced very close together. 
-A lossy approach may even be favourable. Moreover, the underlying techniques predominantly used for dense geometries could show a different usefulness when applied to sparse ones.
+A lossy approach may even be favorable. Moreover, the underlying techniques predominantly used for dense geometries could show a different usefulness when applied to sparse ones.
 
 The overarching idea of this project is to quantify the usage of geometric compression algorithms on sparse point clouds, thus evaluating
 - to which extent results of previous publications on dense data can generally be applied to sparse data,
@@ -26,11 +26,18 @@ While outdoor or urban datasets are also valid, for the sake of setup simplicity
 For the concrete evaluation metrics, we will measure  
 1. the encoding and decoding processing times,
 2. compression ratios using `bpp` (bits per point), and finally,
-3. to measure the reconstruction quality, we will calculate 
-   1. a resolution adaptive PSNR ([Javaheri et. al](#improved-psnr)), and
-   2. a multiscale structural similarity score ([Lazzarotto et. al](#multiscale-structural-similarity-metric))
-Furthermore, as this study does not focues on external factors like available bandwidth, we will perform the evaluation with independence of aforementioned messaging libraries.
+3. to measure the reconstruction quality, we can
+   1. a resolution adaptive PSNR (RA-PSNR) ([Javaheri et. al](#improved-psnr)), and
+   2. a multi-scale structural similarity score (MS-PointSSIM) ([Lazzarotto et. al](#multiscale-structural-similarity-metric))
 
+However, as both quality metrics have been evaluated on the same dataset using Mean opinion scores, and because MMSP has the greater average performance, we choose not to calculate RA-PSNR (see Figures below). Additionally, the source code for MMSP has been published by the authors, while an implementation of RA-PSNR would have been necessary.
+
+| MS-PointSSIM              | RA-PSNR                       |
+| ------------------------- | ----------------------------- |
+| ![MMSP](figures/MMSP.png) | ![RAPSNR](figures/RAPSNR.png) |
+
+
+Lastly, as this study does not focuses on external factors like available bandwidth, we will perform the evaluation with independence of aforementioned messaging libraries.
 The next section presents a roadmap for the project including milestones and some additional technical information(datasets, algorithms, evaluation setup).
 
 
@@ -71,30 +78,30 @@ The next section presents a roadmap for the project including milestones and som
       2. Quality:
          1. Adaptive Peak to Signal and Noise ratio, see [Javaheri et. al](#improved-psnr)
          2. Point cloud similarity methods, e.g. [Multiscale structural similarity metric](#multiscale-structural-similarity-metric) (bonus points for working on .ply files)
-         3. ~~root mean square erro (RMSE)~~ is the most basic PSNR calculation
+         3. ~~root mean square error (RMSE)~~ is the most basic PSNR calculation
       3. Compression Effectiveness:
          1. Compression ratio (bits per point)
 2. Experimental Setup
    1. Overall setup: Python scripts 
    2. Used file format: PLY
       1. Would have to convert from pcd to PLY first using a simple [open3d script](https://www.open3d.org/docs/0.9.0/tutorial/Basic/file_io.html#file-io)
-      2. data pointswill be float64 (see the open3d [docs](https://www.open3d.org/docs/latest/python_api/open3d.geometry.PointCloud.html#open3d.geometry.PointCloud.points))
+      2. data points will be float64 (see the open3d [docs](https://www.open3d.org/docs/latest/python_api/open3d.geometry.PointCloud.html#open3d.geometry.PointCloud.points))
    3. Calculate the aforementioned metrics of 1.4
 3. Evaluate
    > Gather all metrics and present them nicely using matplot or seaborn
 
 ### Algorithm Qualifiers
-| **Paper / Name**                                                 | **Source**                                                                                                   | **AI ?**  | ~~ROS compatible?~~ | avg bpp                           | runtime enc/dec | loss?               | used datasets                   | Cloud Format                                         |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------- | ------------------- | --------------------------------- | --------------- | ------------------- | ------------------------------- | ---------------------------------------------------- |
-| Density-preserving Deep Point Cloud Compression                  | [https://github.com/yunhe20/D-PCC](https://github.com/yunhe20/D-PCC)                                         | x         |                     | max. 6bpp                         | 80ms/30ms       | lossy?              | kitty, ShapeNet                 | PLY, XYZ or BIN (tho their prep script is necessary) |
-| Google Draco                                                     | [https://github.com/google/draco](https://github.com/google/draco)                                           | -         | ~~x~~               |                                   | ~1/~0.5         | both                | example meshes                  | PLY, OBJ, STL (Could theoretically extend)           |
-| Octree-based lossy point-cloud compression with open3d and numpy | [https://github.com/szppaks/pccomp_oct](https://github.com/szppaks/pccomp_oct)                               | -         | ~~x~~               |                                   | ?               | ?                   | none                            | PLY, XYZ, PTS, PCD                                   |
-| mpeg-pcc-tmc13                                                   | [https://github.com/MPEGGroup/mpeg-pcc-tmc13](https://github.com/MPEGGroup/mpeg-pcc-tmc13)                   | ?         |                     |                                   | ?               | ?                   | ?                               | (only?) PLY                                          |
-| SparsePCGC, lossless                                             | [https://github.com/NJUVISION/SparsePCGC](https://github.com/NJUVISION/SparsePCGC)                           | x         | ~~?~~               | 13.5bpp                           | 2.22/206        | no                  | kitti, ford                     | PLY, H5, BIn                                         |
-| SparsePCGC, lossy                                                | [https://github.com/NJUVISION/SparsePCGC](https://github.com/NJUVISION/SparsePCGC)                           | x         | ~~?~~               |                                   | 1.5/1.12        | yes                 | kitti, ford                     | PLY, H5, BIn                                         |
-| ~~Unicorn~~    This might just be SparsePCGC                     | ~~[https://njuvision.github.io/Unicorn/](https://njuvision.github.io/Unicorn/)~~                             | ~x~       | ~~?~~               | ~~s: 12bpp , k+f: 4-5bpp~~        | ~~~5/~5~~       | ~~lossless~~        | ~~kitti, ford, scannet~~        | ?                                                    |
-| ~~MPEG Anchor~~                                                  | 404                                                                                                          | ~~mixed~~ | ~~?~~               | ~~?~~                             | ~~0.8s-1s ?~~   | ?                   | ~~some form of kinect dataset~~ | ~~?~~                                                |
-| Deep Compression for Dense Point Cloud Maps (DEPOCO)             | [https://github.com/PRBonn/deep-point-map-compression](https://github.com/PRBonn/deep-point-map-compression) | x         |                     | 0.44 sieht noch gut aus scheinbar | ?               | lossy, idk how much | kitti, nuScenes                 | i assume kitty, hard to tell tbqh                    |
+| **Paper / Name**                                                 | **Source**                                                                                                   | **AI ?**  | ~~ROS compatible?~~ | avg bpp                    | runtime enc/dec | loss?               | used datasets                   | Cloud Format                                         |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------- | ------------------- | -------------------------- | --------------- | ------------------- | ------------------------------- | ---------------------------------------------------- |
+| Density-preserving Deep Point Cloud Compression                  | [https://github.com/yunhe20/D-PCC](https://github.com/yunhe20/D-PCC)                                         | x         |                     | max. 6bpp                  | 80ms/30ms       | lossy?              | kitty, ShapeNet                 | PLY, XYZ or BIN (tho their prep script is necessary) |
+| Google Draco                                                     | [https://github.com/google/draco](https://github.com/google/draco)                                           | -         | ~~x~~               |                            | ~1/~0.5         | both                | example meshes                  | PLY, OBJ, STL (Could theoretically extend)           |
+| Octree-based lossy point-cloud compression with open3d and numpy | [https://github.com/szppaks/pccomp_oct](https://github.com/szppaks/pccomp_oct)                               | -         | ~~x~~               |                            | ?               | ?                   | none                            | PLY, XYZ, PTS, PCD                                   |
+| mpeg-pcc-tmc13                                                   | [https://github.com/MPEGGroup/mpeg-pcc-tmc13](https://github.com/MPEGGroup/mpeg-pcc-tmc13)                   | ?         |                     |                            | ?               | ?                   | ?                               | (only?) PLY                                          |
+| SparsePCGC, lossless                                             | [https://github.com/NJUVISION/SparsePCGC](https://github.com/NJUVISION/SparsePCGC)                           | x         | ~~?~~               | 13.5bpp                    | 2.22/206        | no                  | kitti, ford                     | PLY, H5, BIn                                         |
+| SparsePCGC, lossy                                                | [https://github.com/NJUVISION/SparsePCGC](https://github.com/NJUVISION/SparsePCGC)                           | x         | ~~?~~               |                            | 1.5/1.12        | yes                 | kitti, ford                     | PLY, H5, BIn                                         |
+| ~~Unicorn~~    This might just be SparsePCGC                     | ~~[https://njuvision.github.io/Unicorn/](https://njuvision.github.io/Unicorn/)~~                             | ~x~       | ~~?~~               | ~~s: 12bpp , k+f: 4-5bpp~~ | ~~~5/~5~~       | ~~lossless~~        | ~~kitti, ford, scannet~~        | ?                                                    |
+| ~~MPEG Anchor~~                                                  | 404                                                                                                          | ~~mixed~~ | ~~?~~               | ~~?~~                      | ~~0.8s-1s ?~~   | ?                   | ~~some form of kinect dataset~~ | ~~?~~                                                |
+| Deep Compression for Dense Point Cloud Maps (DEPOCO)             | [https://github.com/PRBonn/deep-point-map-compression](https://github.com/PRBonn/deep-point-map-compression) | x         |                     | 0.44 looks good apparently | ?               | lossy, idk how much | kitti, nuScenes                 | i assume kitty, hard to tell tbqh                    |
 
 For more info, see below.
 
@@ -145,7 +152,7 @@ once i figure out how to use it, that is
 #### Unicorn
 > [Source](https://njuvision.github.io/Unicorn/)
 
-> Unicorn seems to be just a different name for [SparcePCGC](#sparsepcgc). We will not (try to) use it. 
+> Unicorn seems to be just a different name for [SparsePCGC](#sparsepcgc). We will not (try to) use it. 
 ```
 @ARTICLE{10682571,
   author={Wang, Jianqiang and Xue, Ruixiang and Li, Jiaxin and Ding, Dandan and Lin, Yi and Ma, Zhan},
