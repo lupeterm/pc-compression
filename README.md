@@ -76,7 +76,7 @@ The next section presents a roadmap for the project including milestones and som
    4. Metrics
       1. Processing Time Enc/Dec
       2. Quality:
-         1. Adaptive Peak to Signal and Noise ratio, see [Javaheri et. al](#improved-psnr)
+         1. ~~Adaptive Peak to Signal and Noise ratio, see [Javaheri et. al](#improved-psnr)~~ overall slightly worse than 2.
          2. Point cloud similarity methods, e.g. [Multiscale structural similarity metric](#multiscale-structural-similarity-metric) (bonus points for working on .ply files)
          3. ~~root mean square error (RMSE)~~ is the most basic PSNR calculation
       3. Compression Effectiveness:
