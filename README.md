@@ -28,18 +28,18 @@ For the concrete evaluation metrics, we will measure
 2. compression ratios using `bpp` (bits per point), and finally,
 3. to measure the reconstruction quality, we can
    1. a resolution adaptive PSNR (RA-PSNR) ([Javaheri et. al](#improved-psnr)), and
-   2. a multi-scale structural similarity score (MS-PointSSIM) ([Lazzarotto et. al](#multiscale-structural-similarity-metric))
+   2. a structural similarity score (PointSSIM) ([Alexiou et. al](#structural-similarity-metric))
 
-However, as both quality metrics have been evaluated on the same dataset using Mean opinion scores, and because MMSP has the greater average performance, we choose not to calculate RA-PSNR (see Figures below). Additionally, the source code for MMSP has been published by the authors, while an implementation of RA-PSNR would have been necessary.
+However, as both quality metrics have been evaluated on the same dataset using Mean opinion scores, and because PointSSIM has the greater average performance, we choose not to calculate RA-PSNR (see Figures below). Additionally, the source code for PointSSIM has been published by the authors, while an implementation of RA-PSNR would have been necessary.
 
-| MS-PointSSIM              | RA-PSNR                       |
+| PointSSIM              | RA-PSNR                       |
 | ------------------------- | ----------------------------- |
-| ![MMSP](figures/MMSP.png) | ![RAPSNR](figures/RAPSNR.png) |
-
+| ![MMSP](figures/pointssim.png) | ![RAPSNR](figures/RAPSNR.png) |
 
 Lastly, as this study does not focuses on external factors like available bandwidth, we will perform the evaluation with independence of aforementioned messaging libraries.
 The next section presents a roadmap for the project including milestones and some additional technical information(datasets, algorithms, evaluation setup).
 
+Note: PointSSIM can determine the similarity of point clouds based on up to four options; geometry, normals, curvature, and color. Since this project is focused on sparse geometries, we will therefore limit the similarity to the geometric similarity alone.  
 
 ## Roadmap
 
@@ -77,7 +77,7 @@ The next section presents a roadmap for the project including milestones and som
       1. Processing Time Enc/Dec
       2. Quality:
          1. ~~Adaptive Peak to Signal and Noise ratio, see [Javaheri et. al](#improved-psnr)~~ overall slightly worse than 2.
-         2. Point cloud similarity methods, e.g. [Multiscale structural similarity metric](#multiscale-structural-similarity-metric) (bonus points for working on .ply files)
+         2. Point cloud similarity methods, e.g. [structural similarity metric](#structural-similarity-metric) (bonus points for working on .ply files)
          3. ~~root mean square error (RMSE)~~ is the most basic PSNR calculation
       3. Compression Effectiveness:
          1. Compression ratio (bits per point)
@@ -232,16 +232,17 @@ Maja Krivokuća, Philip A. Chou, and Patrick Savill, “8i Voxelized Surface Lig
 }
 ```
 
-#### Multiscale Structural Similarity Metric
+#### Structural Similarity Metric
 ```
-@INPROCEEDINGS{10337634,
-  author={Lazzarotto, Davi and Ebrahimi, Touradj},
-  booktitle={2023 IEEE 25th International Workshop on Multimedia Signal Processing (MMSP)}, 
-  title={Towards a Multiscale Point Cloud Structural Similarity Metric}, 
-  year={2023},
+@INPROCEEDINGS{9106005,
+  author={Alexiou, Evangelos and Ebrahimi, Touradj},
+  booktitle={2020 IEEE International Conference on Multimedia & Expo Workshops (ICMEW)}, 
+  title={Towards a Point Cloud Structural Similarity Metric}, 
+  year={2020},
   volume={},
   number={},
   pages={1-6},
-  doi={10.1109/MMSP59012.2023.10337634}
-}
+  keywords={Point cloud compression;Geometry;Visualization;Three-dimensional displays;Image color analysis;Predictive models;Feature extraction;Point cloud;objective quality metric;visual quality assessment},
+  doi={10.1109/ICMEW46912.2020.9106005}}
+
 ```
