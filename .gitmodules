@@ -1,0 +1,9 @@
+[submodule "DPCC"]
+	path = DPCC
+	url = https://github.com/yunhe20/D-PCC
+[submodule "draco"]
+	path = draco
+	url = https://github.com/google/draco
+[submodule "SparsePCGC"]
+	path = SparsePCGC
+	url = https://github.com/NJUVISION/SparsePCGC

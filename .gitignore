@@ -7,6 +7,8 @@ __pycache__/
 *.so
 *.ply
 *.drc
+*.npz
+test/
 # Distribution / packaging
 .Python
 build/

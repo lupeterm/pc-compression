@@ -55,7 +55,7 @@ Note: PointSSIM can determine the similarity of point clouds based on up to four
    2. Algorithms (see [table](#algorithm-qualifiers))
       1.  [ ] [D-PCC](#d-pcc)
       2.  [ ] [Google Draco](#google-draco)
-      3.  [ ] [pccompt_oct](#pccomp-oct)
+      3.  [ ] [pccomp_oct](#pccomp-oct)
       4.  [ ] [mpeg-pcc-tmc13](#mpeg-pcc-tmc13)
       5.  [ ] [SparsePCGC](#sparsepcgc)
       6.  [ ] ~~[Unicorn](#unicorn)~~
