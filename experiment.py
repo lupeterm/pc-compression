@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 import os
 from experiments.draco import draco
+from experiments.tmc3 import tmc3
 from experiments.pccomp import pccomp
 from experiments.Results import AlgorithmResults
 
@@ -21,7 +22,7 @@ def prepare_folders(base: str, algorithm_name: str) -> tuple[str, str, str]:
     return output_enc, output_dec, metric_dir
 
 
-ALGORITHMS = {"draco": draco, "pccomp": pccomp}
+ALGORITHMS = {"draco": draco, "pccomp": pccomp, "tmc3": tmc3}
 
 
 def main(
