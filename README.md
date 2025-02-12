@@ -25,7 +25,7 @@ The overarching idea of this project is to quantify the usage of geometric compr
 - how useful *lossless* compression is in the context of sparse geometries, and
 - if it is not sufficiently useful, at which point is it a valuable tradeoff?  
 
-While outdoor or urban datasets are also valid, for the sake of setup simplicity, and because point density decreases quadratically with sensor distance ([Hackel et. al.](#fast-semantic-segmentation)), we will focus on indoor point clouds in this study. 
+While outdoor or urban datasets are also valid, for the sake of setup simplicity, and because point density decreases quadratically with sensor distance ([Hackel et. al.](#fast-semantic-segmentation)), we will focus on indoor point clouds in this study. git submodule update --init --recursive
 For the concrete evaluation metrics, we will measure  
 1. the encoding and decoding processing times,
 2. compression ratios using `bpp` (bits per point), and finally,
@@ -93,6 +93,16 @@ Note: PointSSIM can determine the similarity of point clouds based on up to four
 3. Evaluate
    > Gather all metrics and present them nicely using matplot or seaborn
 
+### Exclusions
+
+#### DPCC
+No pretrained models have been published. Furthermore, the dependencies are severely outdated (python 3.7 has been EOL since june '23) or simply not installable for similar reasons.
+
+#### SparsePCGC
+While the models have been published along with all necessary training and testing data, the dependencies (pytorch 1.10 and MinkowskiEngine 0.5) are, again, not installable as of February 2025 on Ubuntu 24.04.
+
+#### DEPOCO
+The same problem with pytorch seems to apply for DEPOCO as well.
 ### Algorithm Qualifiers
 | **Paper / Name**                                                 | **Source**                                                                                                   | **AI ?**  | ~~ROS compatible?~~ | avg bpp                    | runtime enc/dec | loss?               | used datasets                   | Cloud Format                                         |
 | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------- | ------------------- | -------------------------- | --------------- | ------------------- | ------------------------------- | ---------------------------------------------------- |
