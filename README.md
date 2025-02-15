@@ -1,8 +1,8 @@
 # pc-compression
 Evaluation of point cloud geometry compression algorithms on sparse and non-uniform data.
 
-| Similarity Scores              | Compression rates \& Processing times                       |
-| ------------------------- | ----------------------------- |
+| Similarity Scores                            | Compression rates \& Processing times          |
+| -------------------------------------------- | ---------------------------------------------- |
 | ![Similarity Scores](figures/similarity.png) | ![Compression rates](figures/results_qual.png) |
 
 Complete results for bits per point, computation times, and encoded file size, all in relation to the point cloud size.<br>
@@ -14,10 +14,12 @@ Usually, the size of the point clouds grows quickly as the camera continues to p
 
 Compression of (point cloud) geometries has been extensively studied. A survey of relevant and recent literature concluded, that most publications evaluated their algorithms using very dense datasets in which the data points are uniformly placed, e.g. [8iVFB](#8iVFB-dataset). Conversely, a publication dedicated to the effective usage of compression algorithms on rather sparse and non-uniform geometries seems to be missing. 
 
-For instance, the `auditorium_1` scene of the 2D3DS dataset not only has a medium density, it is also very uniform (see the histogram on the right side). 
-![graphic](https://github.com/user-attachments/assets/12159822-a42e-4d99-a26b-440d8b2870ab) <!--- 2S3DS dataset -->
-In contrast, the `auditorium` scene in our self-recorded FIN dataset has an overall lower density _and_ the individual points are non-uniformly placed, as shown by the wider spread in the histogram.
-![graphic](https://github.com/user-attachments/assets/3ccc0c7b-e7cd-48ef-9ad4-93419f6779d3) <!--- FIN dataset -->
+
+
+|    2S3DS dataset                   | FIN dataset                       |
+| ------------------------------ | ----------------------------- |
+| ![MMSP](figures/2D3DS.png) | ![RAPSNR](figures/FIN.png) |
+|For instance, the `auditorium_1` scene of the 2D3DS dataset not only has a medium density, it is also very uniform (see the histogram on the right side).| In contrast, the `auditorium` scene in our self-recorded FIN dataset has an overall lower density _and_ the individual points are non-uniformly placed, as shown by the wider spread in the histogram. |
 
 As the raw amount of data in dense clouds is likely to be greater than its sparse counterpart, the analyses regarding processing time are naturally applicable. 
 However, other factors may have been disregarded due to the focus on dense geometries. For instance, the amount of compression-induced information loss may play a different role when the data points are not spaced very close together. 
@@ -39,8 +41,8 @@ For the concrete evaluation metrics, we will measure
 
 However, as both quality metrics have been evaluated on the same dataset using Mean opinion scores, and because PointSSIM has the greater average performance, we choose not to calculate RA-PSNR (see Figures below). Additionally, the source code for PointSSIM has been published by the authors, while an implementation of RA-PSNR would have been necessary.
 
-| PointSSIM              | RA-PSNR                       |
-| ------------------------- | ----------------------------- |
+| PointSSIM                      | RA-PSNR                       |
+| ------------------------------ | ----------------------------- |
 | ![MMSP](figures/pointssim.png) | ![RAPSNR](figures/RAPSNR.png) |
 
 Lastly, as this study does not focuses on external factors like available bandwidth, we will perform the evaluation with independence of aforementioned messaging libraries.
