@@ -1,9 +1,11 @@
 # pc-compression
 Evaluation of point cloud geometry compression algorithms on sparse and non-uniform data.
+<center>
+<img src="figures/results_qual.png"><br>
+Complete results for bits per point, computation times, and encoded file size, all in relation to the point cloud size.<br>
+The legend shown in the bottom right plot applies to all subplots.
+</center>
 
-First (quick and dirty) results of the conferenceRoom scene:
-
-![image](https://github.com/user-attachments/assets/ca1af17d-73d8-42b8-9b94-b3f15efba07e)
 ## Rationale
 In many real world robotics scenarios, point cloud geometries need to be exchanged between nodes in a system, e.g. ROS, LCM, or ZeroMQ. For instance, one of these nodes could be a Raspberry Pi that computes an unorganized point cloud (UPC) from a continuous stream of RGB-D data. Now, as this point cloud would be processed in in nodes further downstream inside the system, the entire UPC would have to be transmitted over a shared network between the nodes. 
 Usually, the size of the point clouds grows quickly as the camera continues to perceive its surroundings. Furthermore, since bandwidth is often limited and expensive, geometric compression algorithms are necessary to ensure the application runs smoothly.
