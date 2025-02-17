@@ -1,11 +1,21 @@
 # pc-compression
 Evaluation of point cloud geometry compression algorithms on sparse and non-uniform data.
 
+## Quick Overview
+The results below were generated using `draco`, `mpeg-pcc-tmc3`, and `pccomp`. We used the [FIN Dataset](https://github.com/lupeterm/FIN-Dataset) which includes 4 scenes of an hallway, an office, a conference room, and the main lecture hall.
+To calculate the similarity score, we used [PointSSIM](#structural-similarity-metric). The remainin metrics were obtained through a python script during the experiment.
+
 | Similarity Scores                            | Compression rates \& Processing times          |
 | -------------------------------------------- | ---------------------------------------------- |
 | ![Similarity Scores](figures/similarity.png) | ![Compression rates](figures/results_qual.png) |
 
-Complete results for bits per point, computation times, and encoded file size, all in relation to the point cloud size.<br>
+For the experiment itself, the default values of each respective algorithm was used. The only slight deviation off the default is the fact that we had to set `--inputScale=100` and `--outputUnitLength=100` for tmc3. This is because, compared to the MPEG Ford dataset, the FIN dataset is a lot smaller. This scaling operation (encoding and decoding) is included in the processing times. Arguably, the scaling time could be subtracted from the total time, but since this operation is not optional, we choose to include it. 
+
+| Algorithm  | Avg. PSSIM | Avg. bpp | Avg Encoding Time/point | Avg Decoding Time/point |
+| ---------- | ---------- | -------- | ----------------------- | ----------------------- |
+| **Draco**  | 0.9031     | 4.02     | 396ns                   | 220ns                   |
+| **tmc3**   | 0.9968     | 13.54    | 281ns                   | 173ns                   |
+| **pccomp** | 0.8817     | 3.31     | 1925ns                  | 938ns                   |
 
 ## Rationale
 In many real world robotics scenarios, point cloud geometries need to be exchanged between nodes in a system, e.g. ROS, LCM, or ZeroMQ. For instance, one of these nodes could be a Raspberry Pi that computes an unorganized point cloud (UPC) from a continuous stream of RGB-D data. Now, as this point cloud would be processed in in nodes further downstream inside the system, the entire UPC would have to be transmitted over a shared network between the nodes. 
@@ -15,10 +25,10 @@ Compression of (point cloud) geometries has been extensively studied. A survey o
 
 
 
-|    2S3DS dataset                   | FIN dataset                       |
-| ------------------------------ | ----------------------------- |
-| ![MMSP](figures/2D3DS.png) | ![RAPSNR](figures/FIN.png) |
-|For instance, the `auditorium_1` scene of the 2D3DS dataset not only has a medium density, it is also very uniform (see the histogram on the right side).| In contrast, the `auditorium` scene in our self-recorded FIN dataset has an overall lower density _and_ the individual points are non-uniformly placed, as shown by the wider spread in the histogram. |
+| 2S3DS dataset                                                                                                                                             | FIN dataset                                                                                                                                                                                            |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ![MMSP](figures/2D3DS.png)                                                                                                                                | ![RAPSNR](figures/FIN.png)                                                                                                                                                                             |
+| For instance, the `auditorium_1` scene of the 2D3DS dataset not only has a medium density, it is also very uniform (see the histogram on the right side). | In contrast, the `auditorium` scene in our self-recorded FIN dataset has an overall lower density _and_ the individual points are non-uniformly placed, as shown by the wider spread in the histogram. |
 
 As the raw amount of data in dense clouds is likely to be greater than its sparse counterpart, the analyses regarding processing time are naturally applicable. 
 However, other factors may have been disregarded due to the focus on dense geometries. For instance, the amount of compression-induced information loss may play a different role when the data points are not spaced very close together. 
