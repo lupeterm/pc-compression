@@ -6,7 +6,6 @@ Evaluation of point cloud geometry compression algorithms on sparse and non-unif
 | ![Similarity Scores](figures/similarity.png) | ![Compression rates](figures/results_qual.png) |
 
 Complete results for bits per point, computation times, and encoded file size, all in relation to the point cloud size.<br>
-The legend shown in the bottom right plot applies to all subplots.
 
 ## Rationale
 In many real world robotics scenarios, point cloud geometries need to be exchanged between nodes in a system, e.g. ROS, LCM, or ZeroMQ. For instance, one of these nodes could be a Raspberry Pi that computes an unorganized point cloud (UPC) from a continuous stream of RGB-D data. Now, as this point cloud would be processed in in nodes further downstream inside the system, the entire UPC would have to be transmitted over a shared network between the nodes. 
