@@ -5,9 +5,9 @@ Evaluation of point cloud geometry compression algorithms on sparse and non-unif
 The results below were generated using `draco`, `mpeg-pcc-tmc3`, and `pccomp`. We used the [FIN Dataset](https://github.com/lupeterm/FIN-Dataset) which includes 4 scenes of an hallway, an office, a conference room, and the main lecture hall.
 To calculate the similarity score, we used [PointSSIM](#structural-similarity-metric). The remainin metrics were obtained through a python script during the experiment.
 
-| Similarity Scores                            | Compression rates \& Processing times          |
-| -------------------------------------------- | ---------------------------------------------- |
-| ![Similarity Scores](figures/similarity.png) | ![Compression rates](figures/results_qual.png) |
+| <center>Similarity Scores <br>  all scenes, no sparsePCGC  </center>                             | Compression rates & Processing times <br> <center>no hallway, no sparsePCGC</center>    | Compression rates \& Processing times <br><center> hallway, with sparsePCGC </center>     |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| ![Similarity Scores ](figures/similarity.png) | ![Compression rates no hallway](figures/results_qual-hallway.png) | ![Compression rates hallway](figures/results_qual-hallway.png) |
 
 For the experiment itself, the default values of each respective algorithm was used. The only slight deviation off the default is the fact that we had to set `--inputScale=100` and `--outputUnitLength=100` for tmc3. This is because, compared to the MPEG Ford dataset, the FIN dataset is a lot smaller. This scaling operation (encoding and decoding) is included in the processing times. Arguably, the scaling time could be subtracted from the total time, but since this operation is not optional, we choose to include it. 
 
