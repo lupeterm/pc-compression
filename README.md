@@ -3,26 +3,36 @@ Evaluation of point cloud geometry compression algorithms on sparse and non-unif
 
 ## Abstract
 Point clouds are a key element of various robotics applications. As point clouds typically grow in size, the efficient transmission of point clouds is a necessary step in many of these applications ($QUELLEN). Therefore, point cloud, or in general, geometric compression algorithms are employed to reduce transmission size and time.
-In this study, we evaluated current state-of-the-art compression algorithms on the FIN dataset, which includes sparse and non-uniform point clouds of four indoor scenes.
-For google draco, mpeg-pcc-tmc3 (tmc3 for short), pccomp, and sparsePCGC, we calculate a structural similary metric (PSSIM), bits per point(bpp), 
+Sparse point clouds with non-uniformly spaced points have so far been overlooked in the literature.
+In this study, we therefore evaluated current state-of-the-art compression algorithms on the FIN dataset, which includes sparse and non-uniform point clouds of four indoor scenes.
+For google draco, mpeg-pcc-tmc3 (tmc3 for short), pccomp, and sparsePCGC, we calculate a structural similary metric (PSSIM), bits per point(bpp), and track the processing times (encoding, decoding, and total).
 
+In terms of processing time and similarity score, the python implementation of `pccomp` seems to be the best choice with unter 500ns per point. However, the compression ratio may explain the excellent similarity score, being almost 14bpp while the dataset average is at around 40bpp. With average 3-4bpp, Algorithms like `draco` and `tmc3` performed better in terms of compression rate, though `tmc3` needs considerably more processing time than `draco`.
+Overall, including the usability and ease of setup, we determine draco to be the best-performing compression algorithm on sparse and non-uniform data, such as the FIN dataset. 
 
 ## Quick Overview
-The results below were generated using `draco`, `mpeg-pcc-tmc3`, and `pccomp`. We used the [FIN Dataset](https://github.com/lupeterm/FIN-Dataset) which includes 4 scenes of an hallway, an office, a conference room, and the main lecture hall.
-To calculate the similarity score, we used [PointSSIM](#structural-similarity-metric). The remainin metrics were obtained through a python script during the experiment.
+The results below were generated using `draco`, `mpeg-pcc-tmc3`, `sparsepcgc`, and `pccomp`. We used the [FIN Dataset](https://github.com/lupeterm/FIN-Dataset) which includes 4 scenes of an hallway, an office, a conference room, and the main lecture hall.
+To calculate the similarity score, we used [PointSSIM](#structural-similarity-metric). The remaining metrics were obtained through a python script during the experiment.
 
-| <center>Similarity Scores <br>  all scenes, no sparsePCGC  </center> | Compression rates & Processing times <br> <center>no hallway, no sparsePCGC</center> | Compression rates \& Processing times <br><center> hallway, with sparsePCGC </center> |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
-| ![Similarity Scores ](figures/similarity.png)                        | ![Compression rates no hallway](figures/results_qual-hallway.png)                    | ![Compression rates hallway](figures/results_qual-hallway.png)                        |
+<!-- Below the plot the  hallway results separetely from the others because  -->
+| <center>Similarity Scores <br>  all scenes, no sparsePCGC  </center> | <center>Compression rates & Processing times </center>                              |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| ![Similarity Scores ](figures/similarity.svg)                        | ![Compression rates no hallway](figures/all_scenes_all_algos.svg) |
 
-For the experiment itself, the default values of each respective algorithm was used. The only slight deviation off the default is the fact that we had to set `--inputScale=100` and `--outputUnitLength=100` for tmc3. This is because, compared to the MPEG Ford dataset, the FIN dataset is a lot smaller. This scaling operation (encoding and decoding) is included in the processing times. Arguably, the scaling time could be subtracted from the total time, but since this operation is not optional, we choose to include it. 
+For the experiment itself, the default values of each respective algorithm was used, assuming the default is considered lossless. If not, we additionally performed an experiment in lossless mode. 
+Furthermore, for the experiments ran on tmc3 and sparsePCGC, an 100x-1000x upscaling of the scenes were necessary. In the case of tmc, we had to set `--inputScale=100` and `--outputUnitLength=100`. For sparsePCGC, we manually added the scaling during the data loading stage using open3d: `pcd = pcd.scale(100, center=pcd.get_center())`. This is because the FIN dataset is a lot smaller compared to the MPEG Ford dataset, the dataset used during evaluation of tmc3 and sparsePCGC. 
+The scaling operations (encoding and decoding) are included in the processing times. Arguably, the scaling time could be subtracted from the total time, but since this operation is not optional (for our dataset), we choose to include it. 
+As a result of the scaling procedure of sparsePCGC, our GPU seemed to run out of memory which prevented us from reliably performing experiments on scenes larger than 600k points. Because this proved incredibly impractical for our evaluation, we chose to limit the evaluation of sparsePCGC on the hallway scene. The collected data is still enough to determine a trend, especially in comparison with the other algorithms. 
 
-| Algorithm                     | Avg. PSSIM | Avg. bpp | Avg Encoding Time/point | Avg Decoding Time/point |
-| ----------------------------- | ---------- | -------- | ----------------------- | ----------------------- |
-| **Draco**                     | 0.9031     | 4.02     | 396ns                   | 220ns                   |
-| **tmc3**                      | 0.9968     | 13.54    | 281ns                   | 173ns                   |
-| **pccomp**                    | 0.8817     | 3.31     | 1925ns                  | 938ns                   |
-| **sparcePCGC<br>(hallway only)** | -          | 9.86     | 6238ns                  | 5780ns                  |
+Below are the average results for all algorithms. It is important to note that the average bpp of sparsePCGC are the smallest in that table. However the significance is considerably low, as we only used the hallway scene for the evaluation of sparsePCGG, which is the smallest of the four.
+
+| Algorithm                                           | Avg. PSSIM | Avg. bpp | Avg. Encoding Time/point | Avg. Decoding Time/point | Avg. Total Proc. Time |
+| --------------------------------------------------- | ---------- | -------- | ------------------------ | ------------------------ | --------------------- |
+| **Draco (default)**                                 | 0.903      | 4.025    | 396ns                    | 220ns                    | 617ns                 |
+| **Draco (lossless)**                                | 0.903      | 4.025    | 480ns                    | 309ns                    | 789ns                 |
+| **pccomp (default, lossless)**                      | **0.997**  | 13.54    | **281ns**                | **173ns**                | **454ns**             |
+| **tmc3 (default, lossless)**                        | 0.882      | **3.31** | 1925ns                   | 938ns                    | 2863ns                |
+| **sparcePCGC<br>(hallway only, default, lossless)** | 0.885      | 9.86     | 6238ns                   | 5780ns                   | 12017ns               |
 
 ## Rationale
 In many real world robotics scenarios, point cloud geometries need to be exchanged between nodes in a system, e.g. ROS, LCM, or ZeroMQ. For instance, one of these nodes could be a Raspberry Pi that computes an unorganized point cloud (UPC) from a continuous stream of RGB-D data. Now, as this point cloud would be processed in in nodes further downstream inside the system, the entire UPC would have to be transmitted over a shared network between the nodes. 

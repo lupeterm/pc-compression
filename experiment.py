@@ -22,7 +22,7 @@ def prepare_folders(base: str, algorithm_name: str) -> tuple[str, str, str]:
     return output_enc, output_dec, metric_dir
 
 
-ALGORITHMS = {"draco": draco, "pccomp": pccomp, "tmc3": tmc3}
+ALGORITHMS = {"draco": draco, "pccomp": pccomp, "tmc3": tmc3, "draco_lossless": draco}
 
 
 def main(
