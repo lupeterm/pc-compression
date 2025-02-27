@@ -57,7 +57,7 @@ The overarching idea of this project is to quantify the usage of geometric compr
 - how useful *lossless* compression is in the context of sparse geometries, and
 - if it is not sufficiently useful, at which point is it a valuable tradeoff?  
 
-While outdoor or urban datasets are also valid, for the sake of setup simplicity, and because point density decreases quadratically with sensor distance ([Hackel et. al.](#fast-semantic-segmentation)), we will focus on indoor point clouds in this study. git submodule update --init --recursive
+While outdoor or urban datasets are also valid, for the sake of setup simplicity, and because point density decreases quadratically with sensor distance ([Hackel et. al.](#fast-semantic-segmentation)), we will focus on indoor point clouds in this study.
 For the concrete evaluation metrics, we will measure  
 1. the encoding and decoding processing times,
 2. compression ratios using `bpp` (bits per point), and finally,
