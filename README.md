@@ -15,9 +15,9 @@ The results below were generated using `draco`, `mpeg-pcc-tmc3`, `sparsepcgc`, a
 To calculate the similarity score, we used [PointSSIM](#structural-similarity-metric). The remaining metrics were obtained through a python script during the experiment.
 
 <!-- Below the plot the  hallway results separetely from the others because  -->
-| <center>Similarity Scores <br>  all scenes, no sparsePCGC  </center> | <center>Compression rates & Processing times </center>                              |
+| <center>Similarity Scores <br> sparsePCGC only in hallway</center> | <center>Compression rates & Processing times </center>                              |
 | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| ![Similarity Scores ](figures/similarity.svg)                        | ![Compression rates no hallway](figures/all_scenes_all_algos.svg) |
+| ![Similarity Scores ](figures/similarity.svg)                        | ![Compression rates no hallway](figures/all_scenes_all_algos_wide.svg) |
 
 For the experiment itself, the default values of each respective algorithm was used, assuming the default is considered lossless. If not, we additionally performed an experiment in lossless mode. 
 Furthermore, for the experiments ran on tmc3 and sparsePCGC, an 100x-1000x upscaling of the scenes were necessary. In the case of tmc, we had to set `--inputScale=100` and `--outputUnitLength=100`. For sparsePCGC, we manually added the scaling during the data loading stage using open3d: `pcd = pcd.scale(100, center=pcd.get_center())`. This is because the FIN dataset is a lot smaller compared to the MPEG Ford dataset, the dataset used during evaluation of tmc3 and sparsePCGC. 
